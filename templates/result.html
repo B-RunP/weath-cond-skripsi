@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather Condition Prediction - Result</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" />
+  </head>
+  <body>
+    <header>
+      <nav
+        class="navbar fixed-top navbar-expand-lg navbar-light px-5 bg-white">
+        <div class="container-fluid justify-content-between">
+          <a class="navbar-brand logo"
+            ><img src="../static/img/logo/Weathcond.png" alt="logo"
+          /></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">Beranda</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" active href="{{ url_for('service') }}"
+                  >Klasifikasi</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="{{ url_for('admin') }}">Admin</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section class="result">
+      <div class="container">
+        {% if data['suhu'] >= 25 and data['kelembaban'] > 80 and data['curah hujan'] >= 10 and data['sinar matahari'] < 5 %}
+            {% set cuaca = 'Dominan Hujan Deras' %}
+            {% set gambar = '<img src="../static/img/cuaca/hujan-deras.png" class="card-img-top" alt="Hujan Deras">' %}
+        {% elif data['suhu'] >= 25 and data['kelembaban'] > 80 and data['curah hujan'] > 5 and data['sinar matahari'] < 5 %}
+            {% set cuaca = 'Dominan Hujan Ringan' %}
+            {% set gambar = '<img src="../static/img/cuaca/hujan-ringan.png" class="card-img-top" alt="Hujan Ringan">' %}
+        {% elif data['suhu'] >= 25 and data['kelembaban'] > 80 and data['curah hujan'] <= 5 and data['sinar matahari'] <= 6 %}
+            {% set cuaca = 'Dominan Hangat Lembab' %}
+            {% set gambar = '<img src="../static/img/cuaca/lembab.png" class="card-img-top" alt="Hangat Lembab">' %}
+        {% elif data['suhu'] >= 25 and data['kelembaban'] > 80 and data['curah hujan'] <= 5 and data['sinar matahari'] <= 10 %}
+            {% set cuaca = 'Dominan Cerah' %}
+            {% set gambar = '<img src="../static/img/cuaca/panas.png" class="card-img-top" alt="Cerah">' %}
+        {% else %}
+            {% set cuaca = 'Cuaca Kurang jelas' %}
+            {% set gambar = '<img src="../static/img/cuaca/tidak-jelas.png" class="card-img-top" alt="Tidak Jelas">' %}
+        {% endif %}
+        <div class="card mb-3">
+          {{ gambar | safe }}
+          <div class="card-body">
+            <h4 class="card-title">{{cuaca}}</h4>
+            <div class="d-flex justify-content-evenly">
+              <div class="text-center">
+                <i class="fa-solid fa-temperature-low fa-2xl mb-4" style="color: #000000"></i>
+                <h4>{{ data['suhu'] }}<span>&deg</span></h4>
+              </div>
+              <div class="text-center">
+                <i class="fa-solid fa-droplet fa-2xl mb-4" style="color: #000000"></i>
+                <h4>{{ data['kelembaban'] }}%</h4>
+              </div>
+              <div class="text-center">
+                <i class="fa-solid fa-cloud-rain fa-2xl mb-4" style="color: #000000"></i>
+                <h4>{{ data['curah hujan'] }}mm</h4>
+              </div>
+              <div class="text-center">
+                <i class="fa-solid fa-sun fa-2xl mb-4" style="color: #000000"></i>
+                <h4>{{ data['sinar matahari'] }}jam</h4>
+              </div>
+            </div>
+            <p class="card-text">Hasil pengklasifikasian berdasarkan data yang dimasukkan menunjukkan bahwa kondisi cuacanya diperkirakan akan {{cuaca}}. Dari penilaian ini, dapat disimpulkan bahwa lingkungan tersebut <span class="fw-bold">
+              {{ "Cocok" if prediction == 1 else "Tidak
+              Cocok" }}
+            </span> untuk penanaman padi.</p>
+            <p class="card-text"><small class="text-body-secondary">{{tanggal}}</small></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mb-5">
+        <div class="p-5">
+          <h2 class="text-center">Berikan Komentar</h2>
+            <form action="/ulasan" method="POST">
+              <div class="">
+                <div class="rating">
+                  <input type="number" name="rating" hidden />
+                  <i class="bx bx-star star" style="--i: 0"></i>
+                  <i class="bx bx-star star" style="--i: 1"></i>
+                  <i class="bx bx-star star" style="--i: 2"></i>
+                  <i class="bx bx-star star" style="--i: 3"></i>
+                  <i class="bx bx-star star" style="--i: 4"></i>
+                </div>
+                <label for="pesan" class="form-label">Masukan pesan</label>
+                <textarea
+                  id="pesan"
+                  class="form-control"
+                  name="pesan"
+                  rows="6"
+                  placeholder="Message..."></textarea>
+              </div>
+              <button class="btn btn-primary mt-3" type="submit">Kirim</button>
+            </form>
+        </div>
+        </div>
+      </section>
+    </section>
+
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Beranda</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Klasifikasi</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Tentang</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Kontak</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Admin</a>
+            </li>
+          </ul>
+          <div class="text-center text-muted">© 2023 Brian Purnama</div>
+        </div>
+      </div>
+    </footer>
+    <script src="{{ url_for('static', filename='script/script.js') }}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/9ce7aa97de.js"
+      crossorigin="anonymous"></script>
+  </body>
+</html>

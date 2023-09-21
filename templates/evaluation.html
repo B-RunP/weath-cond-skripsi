@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evaluation Result</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/9ce7aa97de.js"
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header id="header">
+      <nav class="navbar fixed-top navbar-expand-lg navbar-light px-5 bg-white">
+        <div class="container-fluid justify-content-between">
+          <a class="navbar-brand logo"
+            ><img src="../static/img/logo/Weathcond.png" alt="logo"
+          /></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">Beranda</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('service') }}"
+                  >Klasifikasi</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('admin') }}"
+                  >Admin</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section class="container evaluation">
+      <h1>Evaluation Result</h1>
+      <table>
+        <tr>
+          <th>Accuracy</th>
+          <td>: {{accuracy}}</td>
+        </tr>
+        <tr>
+          <th>Precision</th>
+          <td>: {{precision}}</td>
+        </tr>
+        <tr>
+          <th>Recall</th>
+          <td>: {{recall}}</td>
+        </tr>
+        <tr>
+          <th>F1 Score</th>
+          <td>: {{f1}}</td>
+        </tr>
+        <tr>
+          <th>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#akurasi"
+              ><i
+                class="fa-regular fa-circle-question fa-lg"
+                style="color: #0000ff"></i
+            ></a>
+          </th>
+          <td></td>
+        </tr>
+      </table>
+
+      <table class="table table-striped text-center">
+        <tr class="table-light">
+          <th></th>
+          <th>Not Cocok</th>
+          <th>Cocok</th>
+        </tr>
+        <tr>
+          <th>Not Cocok</th>
+          <td>{{ confusion_matrix[0][0] }}</td>
+          <td>{{ confusion_matrix[0][1] }}</td>
+        </tr>
+        <tr class="table-light">
+          <th>Cocok</th>
+          <td>{{ confusion_matrix[1][0] }}</td>
+          <td>{{ confusion_matrix[1][1] }}</td>
+        </tr>
+      </table>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#confusion-matrix"
+        ><i
+          class="fa-regular fa-circle-question fa-lg"
+          style="color: #0000ff"></i
+      ></a>
+    </section>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="akurasi"
+      tabindex="-1"
+      aria-labelledby="akurasiLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="akurasiLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5>Akurasi</h5>
+            <p>
+              Akurasi adalah metrik evaluasi yang mengukur sejauh mana model
+              klasifikasi benar dalam memprediksi kelas data. Secara matematis,
+              akurasi dihitung sebagai jumlah prediksi benar (true positive dan
+              true negative) dibagi dengan jumlah total data.
+            </p>
+            <h5>Presisi</h5>
+            <p>
+              Presisi adalah metrik yang mengukur sejauh mana model benar dalam
+              memprediksi data positif. Ini memberikan gambaran tentang berapa
+              proporsi dari prediksi positif yang benar. Secara matematis,
+              presisi dihitung sebagai jumlah true positive dibagi dengan jumlah
+              total prediksi positif.
+            </p>
+            <h5>Recall</h5>
+            <p>
+              Recall adalah metrik yang mengukur sejauh mana model mampu
+              menemukan semua instance data positif. Ini memberikan gambaran
+              tentang seberapa baik model menghindari kesalahan negatif palsu.
+              Secara matematis, recall dihitung sebagai jumlah true positive
+              dibagi dengan jumlah total data positif.
+            </p>
+            <h5>F1 - Score</h5>
+            <p>
+              F1-score adalah harmonic mean dari presisi dan recall, dan
+              digunakan untuk mencari keseimbangan antara kedua metrik tersebut.
+              F1-score memberikan gambaran keseluruhan tentang kinerja model.
+              Secara matematis, F1-score dihitung sebagai berikut:
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Confusion Matrix -->
+    <div
+      class="modal fade"
+      id="confusion-matrix"
+      tabindex="-1"
+      aria-labelledby="confusion-matrixLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confusion-matrixLabel">
+              Modal title
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h5>Akurasi</h5>
+            <p>
+              Confusion matrix adalah tabel yang digunakan untuk menggambarkan
+              performa model klasifikasi pada set data uji dengan membandingkan
+              prediksi model dengan nilai sebenarnya dari data tersebut.
+              Confusion matrix memiliki empat sel utama, yaitu True Positive
+              (TP), False Positive (FP), True Negative (TN), dan False Negative
+              (FN), seperti yang dijelaskan sebelumnya.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script/script.js') }}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+  </body>
+</html>

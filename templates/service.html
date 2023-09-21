@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather Condition Prediction</title>
+    <link rel="stylesheet" href="static/css/main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/9ce7aa97de.js"
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header id="header">
+      <nav class="navbar fixed-top navbar-expand-lg navbar-light px-5 bg-white">
+        <div class="container-fluid justify-content-between">
+          <a class="navbar-brand logo"
+            ><img src="../static/img/logo/Weathcond.png" alt="logo"
+          /></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">Beranda</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('service') }}"
+                  >Klasifikasi</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('home') }}">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('admin') }}">Admin</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section>
+      <div class="container mt-5">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"
+          ><i
+            class="fa-regular fa-circle-question fa-lg my-4"
+            style="color: #0000ff"></i
+        ></a>
+        <form method="POST" action="/predict" class="row g-3">
+          <div class="col-md-6">
+            <label for="suhu" class="form-label">Suhu</label>
+            <input
+              type="number"
+              id="suhu"
+              name="suhu"
+              class="form-control"
+              step="0.01"
+              min="25"
+              max="30"
+              required />
+          </div>
+          <div class="col-md-6">
+            <label for="kelembaban" class="form-label">Kelembaban</label>
+            <input
+              type="number"
+              id="kelembaban"
+              name="kelembaban"
+              class="form-control"
+              step="0.01"
+              min="83"
+              max="100" />
+          </div>
+          <div class="col-6">
+            <label for="curah hujan" class="form-label">Curah Hujan</label>
+            <input
+              type="number"
+              id="curah hujan"
+              name="curah hujan"
+              class="form-control"
+              step="0.01"
+              min="0"
+              max="100" />
+          </div>
+          <div class="col-6">
+            <label for="sinar matahari" class="form-label"
+              >Sinar Matahari</label
+            >
+            <input
+              type="number"
+              id="sinar matahari"
+              name="sinar matahari"
+              class="form-control mb-4"
+              step="0.01"
+              min="3"
+              max="9" />
+          </div>
+          <hr />
+          <div class="col-6">
+            <label for="musim" class="form-label">Musim</label>
+            <input type="text" name="musim" class="form-control" id="musim" />
+          </div>
+          <div class="col-6">
+            <label for="tanggal" class="form-label">Tanggal</label>
+            <input
+              type="date"
+              name="tanggal"
+              class="form-control"
+              id="tanggal" />
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Predict</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <h4>Bantuan Klasifikasi</h4>
+            <h5>Suhu</h5>
+            <p>
+              Rata - rata suhu di Indonesia setiap bulannya adalah 25<span
+                >&deg</span
+              >
+              - 28<span>&deg</span>. Pada kolom suhu silahkan inputkan nilai 25
+              - 28 untk hasil yang lebih akurat
+            </p>
+            <h5>Kelembaban</h5>
+            <p>
+              Rata - rata kelembaban udara di Indonesia setiap bulannya mencapai
+              83%, angka yang sangat tinggi. Pada kolom kelembaban silahkan isi
+              angka diatas 83 untuk mendapatkan hasil yang lebih akurat
+            </p>
+            <h5>Curah Hujan</h5>
+            <p>
+              Rata - rata curah hujan di Indonesia sangat tidak menentu
+              tergantung musim yang sedang terjadi di Indonesia, anda bisa
+              masukan nilai 1 - 100, perlu diketahui nilai curah hujan 10 keatas
+              bisa diindikasikan hujan
+            </p>
+            <h5>Sinar matahari</h5>
+            <p>
+              Sinar matahari disini adalah lama sinar matahari pada intensitas
+              tertentu. Silahkan isi nilai 3 - 8
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Beranda</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Klasifikasi</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Tentang</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Kontak</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link px-2 text-muted">Admin</a>
+            </li>
+          </ul>
+          <div class="text-center text-muted">© 2023 Brian Purnama</div>
+        </div>
+      </div>
+    </footer>
+    <script src="{{ url_for('static', filename='script/script.js') }}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+  </body>
+</html>

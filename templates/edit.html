@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Cuaca</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <nav
+        class="navbar fixed-top navbar-expand-xl navbar-light bg-light shadow px-5"
+        style="background-color: #fff">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse justify-content-between">
+            <a class="navbar-brand logo">CuacaMu</a>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('home') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('service') }}"
+                  >Classification</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('admin') }}"
+                  >Admin</a
+                >
+              </li>
+            </ul>
+            <a class="btn btn-secondary px-4 rounded-4">Get Started</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <section class="container w-50 herp">
+      <form action="/edit/{{row[0]}}" method="POST">
+        <label for="jenis_cuaca" class="form-label">Jenis Cuaca:</label>
+        <input
+          type="text"
+          id="jenis_cuaca"
+          name="jenis_cuaca"
+          value="{{ row[0] }}"
+          class="form-control" /><br />
+        <label for="suhu" class="form-label">Suhu:</label>
+        <input
+          type="text"
+          id="suhu"
+          name="suhu"
+          value="{{ row[1] }}"
+          class="form-control" /><br />
+        <label for="kelembaban" class="form-label">Kelembaban:</label>
+        <input
+          type="text"
+          id="kelembaban"
+          name="kelembaban"
+          value="{{ row[2] }}"
+          class="form-control" /><br />
+        <label for="curah_hujan" class="form-label">Curah Hujan:</label>
+        <input
+          type="text"
+          id="curah_hujan"
+          name="curah_hujan"
+          value="{{ row[3] }}"
+          class="form-control" /><br />
+        <label for="sinar_matahari" class="form-label">Sinar Matahari:</label>
+        <input
+          type="text"
+          id="sinar_matahari"
+          name="sinar_matahari"
+          value="{{ row[4] }}"
+          class="form-control" /><br />
+        <button type="submit" class="btn btn-primary w-100">Edit</button>
+      </form>
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+  </body>
+</html>
